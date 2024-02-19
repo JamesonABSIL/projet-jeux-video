@@ -1,0 +1,77 @@
+@use '../../styles/variables' as v;
+
+.App {
+  text-align: center;
+
+  &-logo {
+    height: 40vmin;
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+
+  &-header {
+    background-color: v.$color-bg;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: v.$color;
+  }
+	
+  &-link {
+		color: v.$color-primary;
+  }
+}
+
+.menu-link--active {
+	color: red;
+}
+
+@keyframes App-logo-spin {
+	from {
+		transform: rotate(0deg);
+  }
+  to {
+		transform: rotate(360deg);
+  }
+}
+h1 {
+	text-align: center;
+}
+footer {
+	position: fixed;
+	z-index: 50;
+	width: 100%;
+	height: 70px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+main {
+	margin-bottom: 80px;
+}
+button.btn.coeur{
+  background-color: transparent;
+  border: transparent;  
+}
+button.btn.coeur:hover {
+ transform: scale(1.5);
+}
+button.btn.delete{
+  background-color: white;
+  border: red;  
+}
+button.btn.delete:hover {
+  transform: scale(1.5);
+ }
+ .Sonic{
+  display: flex;
+  justify-content: center;
+  height: 20rem;
+  width: 20rem;
+ }
