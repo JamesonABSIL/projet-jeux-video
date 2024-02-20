@@ -55,9 +55,7 @@ function App() {
     dispatch(fetchVideoGamesHome());
   }, []);
   
-  if (loading) {
-    return <Loading />;
-  }
+ 
 
   return (
     <div className="App h-full">

@@ -109,8 +109,8 @@ export const changeMailRegister=createAction<string>('users/changeMailRegister')
 export const changePasswordRegister=createAction<string>('users/changePasswordRegister')
 export const changePseudoRegister=createAction<string>('users/changePseudoRegister')
 export const changePasswordCheckRegister=createAction<string>('users/changePasswordCheckRegister')
-export const addToFavorite=createAction('users/addToFavorite')
-export const removeFromFavorites=createAction('users/removeFromFavorites')
+export const addToFavorite=createAction<any>('users/addToFavorite')
+export const removeFromFavorites=createAction<any>('users/removeFromFavorites')
 
 
 // Appel API pour le register du User
@@ -142,7 +142,7 @@ const usersReducer = createReducer(initialState, (builder) => {
   }).addCase(addToFavorite, (state, action)=> {
     state.currentUser.favorites.push(action.payload)
   }).addCase(removeFromFavorites, (state, action)=> {
-    const pos = state.currentUser.favorites.map(e => e.slug).indexOf(action.payload.slug);
+    const pos = state.currentUser.favorites.map(e => e.slug).indexOf(action.payload?.slug);
     state.currentUser.favorites.splice(pos, 1)
   })
   // API Statut

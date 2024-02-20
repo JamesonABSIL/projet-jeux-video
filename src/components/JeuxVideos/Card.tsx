@@ -11,10 +11,10 @@ interface IMap {
   name: string,
   description : string,
   slug : string,
-  userFavorite : [],
+  userFavorite : any,
   link : string,
   id : number,
-  game : {} ,
+  game : any ,
 }
 
 export default function Card({
