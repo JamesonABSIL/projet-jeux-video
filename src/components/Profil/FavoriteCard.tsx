@@ -15,22 +15,20 @@ interface IMap {
 export default function FavoriteCard( {src, alt, id, slug, favorites} : IMap ){
   const dispatch = useAppDispatch();
 
-  const updateFavorite = () => {
-    axios.post(
+  const updateFavorite = async () => {
+   const {data} = await axios.post(
       `${import.meta.env.VITE_API_URL}/users/add_favorite/${id}`,
       null,
       { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
     );
+    return data
   };
   
   const handleClick = () => {    
     updateFavorite()
     dispatch(removeFromFavorites(favorites))
   };
-  
-  useEffect(() => {
-    updateFavorite()
-  },[])
+ 
   
   return (
     <div

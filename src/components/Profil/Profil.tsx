@@ -4,14 +4,22 @@ import { logout } from '../../store/reducer/users';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import FavoriteCard from './FavoriteCard'
+import { deleteGame, joinAGame } from '../../store/reducer/games';
+import { findByPseudo } from '../../hooks/findData';
 
 export default function Profil() {
   const dispatch = useAppDispatch();
 
   const isLogged = useAppSelector((state) => state.users.logged);
   const currentUser = useAppSelector((state) => state.users.currentUser);
-  
+  const games=useAppSelector((state) => state.games.list)
 
+  const deleteUser = (id : number) => {
+    dispatch(deleteGame(id))
+  }
+  const handleClick= (id : number) => {
+    dispatch(joinAGame(id))
+  }
   // Fonction qui transforme une dateString en visuel FR présentable
   const formatedDate = (time: string) =>
     new Date(time).toLocaleString('fr-FR', {
@@ -51,7 +59,8 @@ export default function Profil() {
           <div>
             <h2>Mes parties crées :</h2>
             <div className="flex flex-wrap gap-5 justify-center">
-              {currentUser.games.map((games) => (
+              {games.map((games) => (
+                (games.organizer.pseudo===currentUser.pseudo && 
                 <div
                   className="card w-96 bg-base-100 shadow-xl image-full"
                   key={games.id}
@@ -71,18 +80,7 @@ export default function Profil() {
                     <div className="card-actions justify-end justify-between">
                       <button
                         className="btn delete btn-circle btn-outline"
-                        onClick={() =>
-                          axios.delete(
-                            `${import.meta.env.VITE_API_URL}/games/${games.id}`,
-                            {
-                              headers: {
-                                Authorization: `Bearer ${localStorage.getItem(
-                                  'token'
-                                )}`,
-                              },
-                            }
-                          )
-                        }
+                        onClick={() => deleteUser(games.id as number)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +104,7 @@ export default function Profil() {
                       </Link>
                     </div>
                   </div>
-                </div>
+                </div>)
               ))}
             </div>
           </div>
@@ -114,7 +112,8 @@ export default function Profil() {
           <div>
             <h2>Je participe à :</h2>
             <div className="flex flex-wrap gap-5 justify-center">
-              {currentUser.participatedIn.map((games) => (
+              {games.map((games) => (
+                (games.participants.map((e) => e.pseudo===currentUser.pseudo && 
                 <div
                   className="card w-96 bg-base-100 shadow-xl image-full"
                   key={games.id}
@@ -134,9 +133,7 @@ export default function Profil() {
                       <div className="card-actions justify-end justify-between">
                       <button
                         className="btn delete btn-circle btn-outline"
-                        onClick={() =>
-                          axios.post(`${import.meta.env.VITE_API_URL}/users/join_game/${games.id}`, null,{headers : { Authorization: `Bearer ${localStorage.getItem('token')}`},},)
-                        }
+                        onClick={() => handleClick(games.id as number)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -158,10 +155,9 @@ export default function Profil() {
                           Plus d'infos
                         </button></Link>
                       </div>
-                    
                   </div>
                 </div>
-              ))}
+              ))))}
             </div>
           </div>
         </div>

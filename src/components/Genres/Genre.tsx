@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { findBySlug } from '../../hooks/findData';
 import { Link } from 'react-router-dom';
 import { Ivideo_game } from '../../@types/types';
-import Loading from '../App/Loading/Loading'
+
 
 export default function Genre() {
   const { slug } = useParams();  

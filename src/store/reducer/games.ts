@@ -9,8 +9,8 @@ import { findById } from "../../hooks/findData";
 interface IGameCredentials {
     video_game_name : string,
     platform_name: string,
-    max_participants : string,
-    begin_at :  string,
+    maxParticipants : string,
+    beginAt :  string,
     // status: string,
 }
 
@@ -28,8 +28,8 @@ export const initialState: GamesState ={
   gameCredential: {
     video_game_name : "",
     platform_name: "",
-    begin_at : "",
-    max_participants : "",
+    beginAt : "",
+    maxParticipants : "",
     // status: "future",
   }
 }
@@ -39,7 +39,6 @@ export const changeGameInput=createAction<string>('games/changeGameInput')
 export const changePlatformInput=createAction<string>('games/changePlatformInput')
 export const changeDateinput=createAction<string>('games/changeDateinput')
 export const changeParticipantNumberinput=createAction<string>('games/changeMailRegister')
-export const addPlayer=createAction('games/addPlayer')
 
 
 export const fetchGames = createAsyncThunk(
@@ -64,6 +63,32 @@ export const sendGame = createAsyncThunk(
   }
 );
 
+export const joinAGame = createAsyncThunk (
+  'Games/joinAGame',
+async (id : number, thunkAPI) => {
+  const state=thunkAPI.getState() as RootState;
+  const token=state.users.token
+  const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/users/join_game/${id}`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return data
+});
+
+
+
+export const deleteGame = createAsyncThunk(
+  'Games/deleteGame',
+  async (id : number, thunkAPI) => {
+    const state=thunkAPI.getState() as RootState;
+    console.log(thunkAPI)
+    const token=state.users.token
+    const informations = state.games.gameCredential as IGameCredentials;
+    const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/games/${id}`, {headers : { Authorization: `Bearer ${token}`},});
+    return data;
+  }
+);
+
+
 
 const gamesReducer = createReducer(initialState, (builder) => {
   builder
@@ -73,15 +98,16 @@ const gamesReducer = createReducer(initialState, (builder) => {
     })
     
     .addCase(changeDateinput, (state,action) => {
-      state.gameCredential.begin_at=action.payload
-      console.log( state.gameCredential.begin_at)
+      state.gameCredential.beginAt=action.payload
+      console.log( state.gameCredential.beginAt)
     })
     .addCase(changePlatformInput, (state, action) => {
       state.gameCredential.platform_name=action.payload
       console.log(state.gameCredential.platform_name)
     })
     .addCase(changeParticipantNumberinput, (state, action) => {
-      state.gameCredential.max_participants=action.payload
+      state.gameCredential.maxParticipants=action.payload
+      console.log(state.gameCredential.maxParticipants)
     })
     .addCase(fetchGames.pending, (state, action) => {
       state.error = null;
@@ -107,11 +133,36 @@ const gamesReducer = createReducer(initialState, (builder) => {
     .addCase(sendGame.rejected, (state, action)=> {
       state.loading=false;
       state.error=action.error.message as string;
-      console.log(state.error)
-    }).addCase(addPlayer, (state, action) => {
-      
-    })
-   
+      console.log(state.error)})
+      .addCase(deleteGame.pending, (state, action) => {
+        state.error = null;
+        state.loading = true;
+      })
+      .addCase(deleteGame.fulfilled, (state, action)=> {
+        const index=action.meta.arg
+        const pos = state.list.map(e => e.id).indexOf(index);
+        console.log(action.meta.arg)
+        console.log(pos)
+        state.list.splice(pos, 1)
+      })
+      .addCase(deleteGame.rejected, (state, action)=> {
+        state.loading=false;
+        state.error=action.error.message as string;
+        console.log(state.error)})
+        .addCase(joinAGame.pending, (state, action) => {
+          state.error = null;
+          state.loading = true;
+        })
+        .addCase(joinAGame.fulfilled, (state, action)=> {
+          state.loading=false;
+          console.log(action.payload)
+          const pos = state.list.map(e => e.id).indexOf(action.payload.id);
+          state.list.splice(pos, 1, action.payload)
+        })
+        .addCase(joinAGame.rejected, (state, action)=> {
+          state.loading=false;
+          state.error=action.error.message as string;
+          console.log(state.error)})
   });
 
 export default gamesReducer;

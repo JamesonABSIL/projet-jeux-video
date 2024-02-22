@@ -55,8 +55,10 @@ function App() {
     dispatch(fetchVideoGamesHome());
   }, []);
   
+  if(loading) {
+    return <Loading />
+  }
  
-
   return (
     <div className="App h-full">
       <Routes>
@@ -65,7 +67,7 @@ function App() {
           {/* Route de la page d'accueil */}
           <Route index element={<Accueil />} />
           {/* Route de la page d'erreur */}
-          <Route path="*" element={<Error />} />
+          
           {/* Routes de connexion et création de l'utilisateur */}
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
@@ -74,8 +76,10 @@ function App() {
           {!isLogged 
           || !isActive 
           || !isVerified
+          
           ? (
             <>
+              <Route path="*" element={<Error />} />
               <Route path="genres" element={<Login />} />
               <Route path="genres/:slug" element={<Login />} />
               <Route path="plateformes" element={<Login />} />
@@ -102,6 +106,7 @@ function App() {
               <Route path="contact" element={<Contact />} />
               <Route path="profil" element={<Profil />} />
               <Route path="login" element={<Profil />} />
+              <Route path="*" element={<Error />} />
             </>
           )}
         </Route>

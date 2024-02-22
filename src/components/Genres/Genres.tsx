@@ -10,6 +10,7 @@ export default function Genres({}) {
   return (
     <>
     <h1>Genres</h1>
+    
     <div className='flex flex-wrap gap-5 justify-center'>
       {genres.map((genre)=> 
       <div className="card w-96 bg-base-100 shadow-xl image-full z-0" key={genre.slug}>
@@ -23,8 +24,7 @@ export default function Genres({}) {
     </div>
     </Link>
   </div>
-</div>)}
-    
+</div>)}  
 </div>
         </>
   )

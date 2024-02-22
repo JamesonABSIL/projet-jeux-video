@@ -34,14 +34,15 @@ export const fetchVideoGames = createAsyncThunk(
 export const fetchVideoGamesHome = createAsyncThunk(
   'VideoGames/fetchVideoGamesHome',
   async () => {
-    const { data } = await axios.get(`https://andre-appaoo-server.eddi.cloud/projet-08-jeux-video-back/public/api/video-games/covers`);
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/video-games/covers`);
     return data;
   }
 );
 
+
 const videoGamesReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchVideoGames.pending, (state, ) => {
+    .addCase(fetchVideoGames.pending, (state, action) => {
       state.error = null;
       state.loading = true;
     })

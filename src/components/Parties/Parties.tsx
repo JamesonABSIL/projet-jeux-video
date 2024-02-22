@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Igame, Iplatform, Ivideo_game } from '../../@types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { findByName } from '../../hooks/findData';
+import { findByName, findById } from '../../hooks/findData';
 import { changeDateinput, changeGameInput, changeParticipantNumberinput, changePlatformInput, sendGame } from '../../store/reducer/games';
 import { Link } from 'react-router-dom';
 
-export default function Parties() {
+export default function Parties() {  
 
   const formatedDate = (time : string) => new Date(time).toLocaleString(
     "fr-FR",
@@ -28,8 +28,8 @@ export default function Parties() {
   );
 
   const [open, setOpen] = useState(true);
-  const [Platform, setPlatform] = useState<any>()
-  const [videoGame, setVideoGame] = useState<any>()
+  const [Platform, setPlatform] = useState()
+  const [videoGame, setVideoGame] = useState()
 
   const videoGames = useAppSelector((state)=>state.videoGames.list)
   const platformsData = useAppSelector((state)=>state.platforms.list)
@@ -60,7 +60,7 @@ const handleParticipantsChange= (e:ChangeEvent<HTMLInputElement>) => {
   dispatch(changeParticipantNumberinput(e.target.value))
   }
 
-const handleSubmit = (e : any) => {
+const handleSubmit = (e : ChangeEvent<HTMLInputElement>) => {
   e.preventDefault();
   dispatch(sendGame());  
   setOpen(!open)
@@ -77,7 +77,7 @@ function handleClick () {
       <h2>Aujourd'hui</h2>
       <div>
         <div className="carousel carousel-center max-w-full p-4 space-x-4 bg-neutral rounded-box">
-          {parties.map((game : any) => (
+          {parties.map((game : Igame) => (
 
             (date===formatedDateOnlyDay(game.beginAt) && 
             <div className="carousel-item w-80 z-0" key={game.id}>
@@ -93,7 +93,7 @@ function handleClick () {
                 <div className="card-actions justify-center">
                   <Link to={`/parties/${game.id}`}>
                   <button className="btn btn-primary ">
-                    Rejoindre la partie
+                  Voir Plus
                   </button>
                   </Link>
                 </div>
@@ -126,7 +126,7 @@ function handleClick () {
                     <p> Le nombre maximum de participants à été atteint </p>
                   ) : (
                   <Link to={`/parties/${game.id}`}>
-                    <button className="btn btn-primary">S'inscrire</button>
+                    <button className="btn btn-primary">Voir Plus</button>
                   </Link>
                     )}
                   </div>
@@ -154,12 +154,12 @@ function handleClick () {
           <label htmlFor="">Choisissez un jeu : </label>
           <input list="videogames" placeholder='Jeux' onChange={handleChangegames}/>
           <datalist id="videogames">
-            {videoGame===undefined ? videoGames.map((game)=> <option value={game.name} key={game.slug}></option>) : videoGame.videoGames.map((game : any) => <option value={game.name} key={game.slug}></option>) }
+            {videoGame===undefined ? videoGames.map((game)=> <option value={game.name} key={game.slug}></option>) : videoGame.videoGames.map((game : Ivideo_game) => <option value={game.name} key={game.slug}></option>) }
           </datalist>
           <label htmlFor="">Choisissez une plateforme : </label>
           <input list="platforms" placeholder='Plateforme' onChange={handleChangePlatforms}/>
           <datalist id="platforms">
-            {Platform===undefined ? platformsData.map((platform )=> <option value={platform.name} key={platform.slug}></option>) : Platform.platforms.map((platform : any)=> <option value={platform.name} key={platform.slug}></option>) }
+            {Platform===undefined ? platformsData.map((platform )=> <option value={platform.name} key={platform.slug}></option>) : Platform.platforms.map((platform : Iplatform)=> <option value={platform.name} key={platform.slug}></option>) }
           </datalist>          
           <input type="datetime-local" min={Date.now()} placeholder='Date' required onChange={handleDateChange}></input>
           <input type="number" min="2" max="50" placeholder='Nombre de joueur' onChange={handleParticipantsChange}></input> 

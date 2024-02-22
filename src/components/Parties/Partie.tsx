@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { Link, useParams } from 'react-router-dom';
-import { findById } from '../../hooks/findData';
+import { findById, findByName } from '../../hooks/findData';
 import { useMediaQuery } from 'react-responsive';
 import axios from 'axios';
-import Loading from '../App/Loading/Loading';
-import { addPlayer } from '../../store/reducer/games';
+import { changeDateinput, changeGameInput, changeParticipantNumberinput, changePlatformInput, deleteGame, joinAGame, sendGame, } from '../../store/reducer/games';
+import { Iplatform } from '../../@types/types';
 
 export default function Partie() {
   const isDesktopOrLaptop = useMediaQuery({
@@ -13,8 +13,10 @@ export default function Partie() {
   });
 
   const { id } = useParams();
+  const [open, setOpen] = useState(true);
 
-const [partie, setPartie] = useState(useAppSelector((state) => findById(state.games.list, id)));
+const partie = useAppSelector((state) => findById(state.games.list, id));
+const dispatch = useAppDispatch();
 
   const formatedDate = (time: string) =>
     new Date(time).toLocaleString('fr-FR', {
@@ -25,20 +27,64 @@ const [partie, setPartie] = useState(useAppSelector((state) => findById(state.ga
       minute: 'numeric',
     });
 
-  const parties = useAppSelector((state) => findById(state.games.list, id));
+  
+  const [Platform, setPlatform] = useState()
+  const [videoGame, setVideoGame] = useState()
 
-  const joinAGame = async () => {
-    const res = await  axios.post(`${import.meta.env.VITE_API_URL}/users/join_game/${id}`, null, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    });
-  };
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+  const informations = useAppSelector((state) => state.games.gameCredential) 
+  const videoGames = useAppSelector((state)=>state.videoGames.list)
+  const platformsData = useAppSelector((state)=>state.platforms.list)
 
   
-  const handleClick = () => {
-    joinAGame();
-    
-  };
+//   const joinAGame = async () => {
+//     const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/users/join_game/${id}`, null, {
+//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+//     })
+//     console.log(data)
+//     setPartie(data);
+// };
 
+const updateGame = async () => {
+  const res = await  axios.put(`${import.meta.env.VITE_API_URL}/games/${id}`, informations, {
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  });
+};
+
+  const handleClick = () => {     
+    dispatch(joinAGame(id)); 
+    // dispatch(deleteGame(id))
+  };
+  
+  const handleChangegames = (e : ChangeEvent<HTMLInputElement>) => { 
+    setPlatform(findByName(videoGames, e.target.value))
+    dispatch(changeGameInput(e.target.value))
+    }
+    
+    const handleChangePlatforms = (e : ChangeEvent<HTMLInputElement>) => {
+    setVideoGame(findByName(platformsData, e.target.value))
+    dispatch(changePlatformInput(e.target.value))
+    }
+    
+    const handleDateChange = (e : ChangeEvent<HTMLInputElement>) => {
+      dispatch(changeDateinput(e.target.value))
+    }
+    
+    const handleParticipantsChange= (e:ChangeEvent<HTMLInputElement>) => {
+      dispatch(changeParticipantNumberinput(e.target.value))
+      }
+    
+    const handleSubmit = (e : ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      updateGame();  
+      setOpen(!open)
+    }
+    
+    // const handle
+    function handleClicke () {
+      setOpen(!open)
+    }
+    
   return (
     <>
       {!partie ? (
@@ -48,29 +94,36 @@ const [partie, setPartie] = useState(useAppSelector((state) => findById(state.ga
       ) : (
         <div>
           <h1>
-            Partie n°{parties.id} de {parties.organizer.pseudo}
+            Partie n°{partie.id} de {partie.organizer.pseudo}
           </h1>
-          <div className="card lg:card-side bg-base-100 shadow-xl">
+          <div className="card lg:card-side bg-base-100 shadow-xl flex justify-center">
             <div>
-              <figure className={isDesktopOrLaptop ? 'h-1/2 w-1/2' : 'h-1/2 '}>
+              <figure className= {isDesktopOrLaptop ? ' h-1/2 w-full ' : 'h-auto w-content '}>
                 <img
                   className="object-scale-down  h-full"
                   src={`${import.meta.env.VITE_API_COVERS}/${
-                    parties.videoGame.cover
+                    partie.videoGame.cover
                   }`}
-                  alt={parties.videoGame.name}
+                  alt={partie.videoGame.name}
                 />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">
-                  {parties.videoGame.name} sur {parties.platform.name}
+                  {partie.videoGame.name} sur {partie.platform.name}
                 </h2>
-                <p>Début de la partie le {formatedDate(parties.beginAt)}</p>
+                <p>Début de la partie le {formatedDate(partie.beginAt)}</p>
                 <p>
-                  {parties.participants.length}/{parties.maxParticipants}{' '}
+                  {partie.participants.length}/{partie.maxParticipants}{' '}
                   Joueurs
                 </p>
-                {partie.participants.length >= parties.maxParticipants ? (
+                
+                <ul>
+                  {partie.participants.map((p:any) =>
+                  <li key={p.pseudo}>{p.pseudo}</li>
+                  )}                  
+                </ul>
+               
+                {partie.countParticipants >= partie.maxParticipants ? (
                   <div className="card-actions justify-end">
                     <p>Le nombre maximum de participants à été atteint</p>
                     <Link to="/parties">
@@ -82,7 +135,7 @@ const [partie, setPartie] = useState(useAppSelector((state) => findById(state.ga
                 ) : (
                   <div className="card-actions justify-end">
                     <button className="btn btn-primary" onClick={handleClick}>
-                      Rejoindre
+                      { findById(partie.participants, currentUser.id) ? "Se désinscrire" : "S'inscrire"  }                                                                                   
                     </button>
                   </div>
                 )}
@@ -92,6 +145,40 @@ const [partie, setPartie] = useState(useAppSelector((state) => findById(state.ga
           {/* )} */}
         </div>
       )}
+          { partie.organizer.email === currentUser.email &&
+      <aside
+        className={
+          open
+            ? 'flex flex-row gap-6 p-3 mt-20 fixed top-0 right-0 z-50 translate-x-64 transition-all'
+            : 'flex flex-row gap-6 p-3 mt-20 fixed top-0 right-0 z-50 transition-all'
+        }
+      >
+
+        {open ?
+          <button className="btn btn-outline btn-success z-50" onClick={handleClicke}>
+          Modifier la partie
+          </button>
+          : <button className="btn btn-outline btn-error z-50" onClick={handleClicke}>
+          X
+        </button>}
+        <form action="" className='flex flex-col gap-2'>
+          <label htmlFor="">Choisissez un jeu : </label>
+          <input list="videogames" placeholder='Jeux' onChange={handleChangegames}/>
+          <datalist id="videogames">
+            <option value={partie.videoGame.name} key={partie.videoGame.slug}></option>)
+          </datalist>
+          <label htmlFor="">Choisissez une plateforme : </label>
+          <input list="platforms" placeholder='Plateforme' onChange={handleChangePlatforms}/>
+          <datalist id="platforms">
+            {Platform===undefined ? platformsData.map((platform )=> <option value={platform.name} key={platform.slug}></option>) : Platform.platforms.map((platform : Iplatform)=> <option value={platform.name} key={platform.slug}></option>) }
+          </datalist>          
+          <input type="datetime-local" min={Date.now()} placeholder='Date' required onChange={handleDateChange}></input>
+          <input type="number" min="2" max="50" placeholder='Nombre de joueur' onChange={handleParticipantsChange}></input> 
+          <button className='btn' onClick={handleSubmit}>Envoyer</button>
+        </form>
+      </aside>
+    
+    }
     </>
   );
 }

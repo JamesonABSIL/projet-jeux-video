@@ -28,7 +28,7 @@ const navigate = useNavigate();
     dispatch(changePasswordCheckRegister(e.target.value))
   }
   
-  const handleRegister = (e : any) => {
+  const handleRegister = (e : MouseEventHandler<HTMLButtonElement>) => {
     e.preventDefault();
     if (password!=passwordCheck) {
       error.push('Les mots de passe ne correspondent pas')
@@ -39,7 +39,7 @@ const navigate = useNavigate();
     } 
 
     if (error.length>0) {
-      window.alert(error.map((c : any) => c))
+      window.alert(error.map((c) => c))
     }
     
     if (error.length===0) {

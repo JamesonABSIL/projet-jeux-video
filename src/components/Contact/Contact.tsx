@@ -10,7 +10,7 @@ export default function Contact() {
         <input type="text" placeholder='Nom'></input>
         <input type="text" placeholder='Société'></input>
         <input type="text" placeholder='Email'></input>
-        <textarea placeholder='Message' cols={40} rows={20}></textarea>
+        <textarea placeholder='Message' cols="40" rows="20"></textarea>
         <button className='btn btn-primary'>Envoyer</button>
       </form>
     </div>

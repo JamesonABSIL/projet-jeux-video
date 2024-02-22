@@ -22,12 +22,13 @@ export default function Accueil() {
 }
 
 {/* import d'un carroussel via daisyUI */}
-    <div > 
-      <div className="carousel rounded-box flex ">
+    <div className='container carousel'> 
+      <div className="flex gap-4 infinite">
       {videoGames.map((game) => 
-  <div className="carousel-item w-96" key={game.slug}>
-    <img src={`http://andre-appaoo-server.eddi.cloud/projet-08-jeux-video-back/public/images/${game.cover}`}
-    alt={game.slug} />
+  <div className="carousel-item w-96 infinite-item" key={game.slug}>
+    <img src={`http://ec2-13-39-155-29.eu-west-3.compute.amazonaws.com/${game.cover}`}
+    alt={game.slug} 
+    className='rounded-xl'/>
   </div> 
       )}
 </div>

@@ -75,3 +75,26 @@ button.btn.delete:hover {
   height: 20rem;
   width: 20rem;
  }
+
+
+$n:22; /* number of images*/
+
+.infinite  {
+  --d: 35s; /* duration */
+  display: grid;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg,#0000,#000 10% 90%,#0000);
+}
+.infinite > .infinite-item  {
+  grid-area: 1/1;
+  object-fit: cover;
+  animation: r var(--d) linear infinite;
+}
+@for $i from 2 to ($n + 1) {
+  .infinite > img:nth-child(#{$i}) {animation-delay: calc(#{(1 - $i)/$n}*var(--d))}
+}
+
+@keyframes r {
+  79%    {transform: translate(-2100%)}
+  79.01% {transform: translate( 100%)}
+}

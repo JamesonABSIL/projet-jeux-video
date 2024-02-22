@@ -4,12 +4,10 @@ import Navbar from '../Navbar/Navbar'
 
 export default function Header() {
 
-  // Import du hook useMediaQuery via react-responsive qui gère le responsive de la page
   const isDesktopOrLaptop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
-  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
 
   const { pathname } = useLocation();
  
