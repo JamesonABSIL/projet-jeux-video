@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import axios from 'axios';
 import { useAppDispatch } from '../../hooks/redux';
 import { Link } from 'react-router-dom';
-import { addToFavorite, removeFromFavorites } from '../../store/reducer/users';
+import { updateFavorite } from '../../store/reducer/users';
 
 interface IMap {
   src : string,
@@ -15,20 +15,10 @@ interface IMap {
 export default function FavoriteCard( {src, alt, id, slug, favorites} : IMap ){
   const dispatch = useAppDispatch();
 
-  const updateFavorite = async () => {
-   const {data} = await axios.post(
-      `${import.meta.env.VITE_API_URL}/users/add_favorite/${id}`,
-      null,
-      { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-    );
-    return data
+  const handleClick = (id : number) => {    
+    dispatch(updateFavorite(id))
   };
-  
-  const handleClick = () => {    
-    updateFavorite()
-    dispatch(removeFromFavorites(favorites))
-  };
- 
+
   
   return (
     <div
@@ -43,7 +33,7 @@ export default function FavoriteCard( {src, alt, id, slug, favorites} : IMap ){
         <div className="card-actions justify-end justify-between">
         <button
           className="btn delete btn-circle btn-outline"
-          onClick={handleClick}
+          onClick={() => handleClick(id)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

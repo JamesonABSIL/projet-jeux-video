@@ -22,7 +22,7 @@ export default function Accueil() {
 }
 
 {/* import d'un carroussel via daisyUI */}
-    <div className='container carousel'> 
+    <div className='container carousel sm:h-1/2'> 
       <div className="flex gap-4 infinite">
       {videoGames.map((game) => 
   <div className="carousel-item w-96 infinite-item" key={game.slug}>

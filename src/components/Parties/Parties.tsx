@@ -140,7 +140,7 @@ function handleClick () {
         className={
           open
             ? 'flex flex-row gap-6 p-3 mt-20 fixed top-0 right-0 z-50 translate-x-64 transition-all'
-            : 'flex flex-row gap-6 p-3 mt-20 fixed top-0 right-0 z-50 transition-all'
+            : 'flex flex-row gap-6 p-3 mt-20 fixed top-0 right-0 z-50 transition-all bg-gray-800 rounded-lg'
         }
       >
         {open ?

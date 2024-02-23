@@ -2,10 +2,8 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout } from '../../store/reducer/users';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import FavoriteCard from './FavoriteCard'
 import { deleteGame, joinAGame } from '../../store/reducer/games';
-import { findByPseudo } from '../../hooks/findData';
 
 export default function Profil() {
   const dispatch = useAppDispatch();
@@ -44,7 +42,6 @@ export default function Profil() {
         </button>
       )}
       <h1>Profil de {currentUser.pseudo} </h1>
-      {/* <p>Votre profil est {currentUser.is_active ? "actif" : "inactif"}</p> */}
       {currentUser.is_active ? (
         <div>
           <div>

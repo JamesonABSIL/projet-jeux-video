@@ -102,15 +102,22 @@ export const loginAuth = createAsyncThunk(
   }
 );
 
-
-
 // Register Actions
 export const changeMailRegister=createAction<string>('users/changeMailRegister')
 export const changePasswordRegister=createAction<string>('users/changePasswordRegister')
 export const changePseudoRegister=createAction<string>('users/changePseudoRegister')
 export const changePasswordCheckRegister=createAction<string>('users/changePasswordCheckRegister')
-export const addToFavorite=createAction('users/addToFavorite')
-export const removeFromFavorites=createAction('users/removeFromFavorites')
+
+export const updateFavorite = createAsyncThunk('users/updateFavorite', 
+async (id : number, thunkAPI) => {
+  const state=thunkAPI.getState() as RootState;
+  const token = state.users.token
+  const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/users/add_favorite/${id}`, null,
+     { headers: { Authorization: `Bearer ${token}` } }
+   );
+   return data
+ })
+  
 
 
 // Appel API pour le register du User
@@ -139,13 +146,6 @@ const usersReducer = createReducer(initialState, (builder) => {
     state.register.passwordCheck=action.payload
   }).addCase(changePseudoRegister, (state, action)=> {
     state.register.pseudo=action.payload
-  }).addCase(addToFavorite, (state, action)=> {
-    console.log(action.payload)
-    state.currentUser.favorites=action.payload
-    console.log(state.currentUser.favorites)
-  }).addCase(removeFromFavorites, (state, action)=> {
-    const pos = state.currentUser.favorites.map(e => e.slug).indexOf(action.payload.slug);
-    state.currentUser.favorites.splice(pos, 1)
   })
   // API Statut
     .addCase(login.pending, (state, action) => {
@@ -195,7 +195,18 @@ const usersReducer = createReducer(initialState, (builder) => {
     .addCase(register.rejected, (state, action)=> {
       state.loading=false;
       state.error=action.error.message as string;
-      console.log(action)
+      console.log(action)})
+    .addCase(updateFavorite.pending, (state, action) => {
+        state.error = null;
+        state.loading = true;
+      })
+    .addCase(updateFavorite.fulfilled, (state, action)=> {
+        console.log(action.payload)
+        state.currentUser.favorites=action.payload.favorites
+      })
+    .addCase(updateFavorite.rejected, (state, action)=> {
+        state.loading=false;
+        state.error=action.error.message as string;
     }).addCase(loginAuth.pending, (state, action) => {
       state.error = null;
       state.loading = true;
