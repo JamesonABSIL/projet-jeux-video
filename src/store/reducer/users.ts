@@ -11,7 +11,7 @@ interface ICredentials {
   password: string;
 }
 
-interface CurrentUser {
+export interface CurrentUser {
   id : number,
   pseudo : string ,
   email: string,
@@ -20,6 +20,11 @@ interface CurrentUser {
   favorites : Ivideo_game[],
   is_active : boolean,
   isVerified: Boolean;
+  roles : string,
+  nintendoCode: string ,
+  psId : string ,
+  xbId : string,
+  // pcIds : string,
 }
 
 interface Iregister {
@@ -54,6 +59,11 @@ export const initialState: UsersState ={
     favorites : [],
     is_active : false,
     isVerified: false,
+    roles : "",
+    nintendoCode: "",
+    psId :"" ,
+    xbId :"" ,
+    // pcIds : "",
   },
   list: [],
   loading: false,
@@ -77,6 +87,11 @@ export const changeMail=createAction<string>('users/changeMail')
 export const changePassword=createAction<string>('users/changePassword')
 // Profil Actions
 
+export const updatePseudo=createAction<string>('users/updatePseudo')
+export const updateMail=createAction<string>('users/updateMail')
+export const updatenintendocode=createAction<string>('users/updatenintendocode')
+export const updatepsId=createAction<string>('users/updatepsId')
+export const updatexbId=createAction<string>('users/updatexbId')
 
 // Appel Api pour le log du User avec récupération des données de l'utilisateur
 export const login = createAsyncThunk(
@@ -90,7 +105,7 @@ export const login = createAsyncThunk(
     return data;
   }
 );
-
+// Appel API pour récupérer les données de l'utilisateur courant
 export const loginAuth = createAsyncThunk(
   'users/loginAuth',
   async (_, thunkAPI) => {
@@ -102,7 +117,7 @@ export const loginAuth = createAsyncThunk(
   }
 );
 
-// Register Actions
+// Actions du formulaire d'inscription
 export const changeMailRegister=createAction<string>('users/changeMailRegister')
 export const changePasswordRegister=createAction<string>('users/changePasswordRegister')
 export const changePseudoRegister=createAction<string>('users/changePseudoRegister')
@@ -118,6 +133,20 @@ async (id : number, thunkAPI) => {
    return data
  })
   
+
+ export const updateProfil = createAsyncThunk('users/updateProfil', 
+async (_, thunkAPI) => {
+  const state=thunkAPI.getState() as RootState;
+  const token = state.users.token
+  const current={...state.users.currentUser}
+  const information = {pseudo : current.pseudo, email : current.email, nintendoCode :
+    current.nintendoCode, psId :current.psId, xbId : current.xbId }   
+
+  const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/users/update`, information ,
+     { headers: { Authorization: `Bearer ${token}` } }
+   );
+   return data
+ })
 
 
 // Appel API pour le register du User
@@ -144,8 +173,16 @@ const usersReducer = createReducer(initialState, (builder) => {
     state.register.password=action.payload
   }).addCase(changePasswordCheckRegister, (state, action)=> {
     state.register.passwordCheck=action.payload
-  }).addCase(changePseudoRegister, (state, action)=> {
-    state.register.pseudo=action.payload
+  }).addCase(updatePseudo, (state, action)=> {
+    state.currentUser.pseudo=action.payload
+  }).addCase(updateMail, (state, action)=> {
+    state.currentUser.email=action.payload
+  }).addCase(updatenintendocode, (state, action)=> {
+    state.currentUser.nintendoCode=action.payload
+  }).addCase(updatepsId, (state, action)=> {
+    state.currentUser.psId=action.payload
+  }).addCase(updatexbId, (state, action)=> {
+    state.currentUser.xbId=action.payload
   })
   // API Statut
     .addCase(login.pending, (state, action) => {
@@ -154,7 +191,7 @@ const usersReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action)=> {
       const{ token } =action.payload;
-      const {pseudo, favorites, games, id, participatedIn, email, is_active, isVerified } = action.payload.user
+      const {pseudo, favorites, games, id, participatedIn, email, is_active, isVerified, roles, nintendoCode, psId, xbId } = action.payload.user
       state.currentUser.pseudo=pseudo;
       state.currentUser.favorites=favorites;
       state.currentUser.games=games;
@@ -163,14 +200,15 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.currentUser.email=email;
       state.currentUser.is_active=is_active;
       state.currentUser.isVerified=isVerified;
-      
+      state.currentUser.roles=roles
       state.token = token;
       state.loading=false;
       state.logged=true;
       state.credentials.username = '';
       state.credentials.password = '';
-      
-
+      state.currentUser.psId=psId;
+      state.currentUser.nintendoCode=nintendoCode;
+      state.currentUser.xbId=xbId;
     })
     .addCase(login.rejected, (state, action)=> {
       state.loading=false;
@@ -195,13 +233,24 @@ const usersReducer = createReducer(initialState, (builder) => {
     .addCase(register.rejected, (state, action)=> {
       state.loading=false;
       state.error=action.error.message as string;
-      console.log(action)})
+      })
+      .addCase(updateProfil.pending, (state, action) => {
+        state.error = null;
+        state.loading = true;
+      })
+      .addCase(updateProfil.fulfilled, (state, action)=> {
+        const{ pseudo, token, logged } =action.payload;
+        state.loading=false;
+      })
+      .addCase(updateProfil.rejected, (state, action)=> {
+        state.loading=false;
+        state.error=action.error.message as string;
+        })
     .addCase(updateFavorite.pending, (state, action) => {
         state.error = null;
         state.loading = true;
       })
     .addCase(updateFavorite.fulfilled, (state, action)=> {
-        console.log(action.payload)
         state.currentUser.favorites=action.payload.favorites
       })
     .addCase(updateFavorite.rejected, (state, action)=> {
@@ -212,7 +261,7 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.loading = true;
     })
     .addCase(loginAuth.fulfilled, (state, action)=> {
-      const {pseudo, favorites, games, id, participatedIn, email, is_active, isVerified } = action.payload
+      const {pseudo, favorites, games, id, participatedIn, email, is_active, isVerified, roles, nintendoCode, psId, xbId } = action.payload
       state.currentUser.pseudo=pseudo;
       state.currentUser.favorites=favorites;
       state.currentUser.games=games;
@@ -221,7 +270,10 @@ const usersReducer = createReducer(initialState, (builder) => {
       state.currentUser.email=email;
       state.currentUser.is_active=is_active;
       state.currentUser.isVerified=isVerified;
-      console.log(action.payload)
+      state.currentUser.roles=roles;
+      state.currentUser.psId=psId;
+      state.currentUser.nintendoCode=nintendoCode;
+      state.currentUser.xbId=xbId;
     })
     .addCase(loginAuth.rejected, (state, action)=> {
       state.loading=false;

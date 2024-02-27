@@ -4,8 +4,7 @@ import platformsReducer from "./platforms"
 import videoGamesReducer from "./videoGames"
 import usersReducer from "./users"
 
-
-
+// Gestion de tous les reducers pour une transmission au store
 const reducer = {
   games: gamesReducer,
   genres: genresReducer,

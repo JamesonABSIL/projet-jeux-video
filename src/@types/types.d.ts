@@ -50,6 +50,7 @@ export interface Igame {
   participants : Iuser[],
   videoGame : Ivideo_game,
   platform_id: number,
+  platform : Iplatform,
   beginAt : string ,
   status:string,
   slug:string,

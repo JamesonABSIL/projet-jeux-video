@@ -8,7 +8,7 @@ import {
 } from '../../store/reducer/users';
 import Input from './LoginInput/Input';
 import { fetchGenres } from '../../store/reducer/genres';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -45,53 +45,61 @@ export default function Login() {
   }
 
   return (
-    <div className="flex justify-center">
+    <> 
+    <h1 className='mb-2 text-4xl lg:text-8xl'>Connexion</h1>
+    <div className="flex justify-center mt-10">
+      <div className='lg:flex flex-col '>
       {!isLogged && (
         <>
           <form
             action=""
             className="flex flex-col gap-y-4 w-72 justify-center "
             onKeyDown={handleKeyDown}
-          >
+            >
             <Input
               value={mailValUe}
               placeholder="mail"
               type="text"
               name="username"
               onChange={handleChangeUserName}
-            />
+              />
             <Input
               value={passwordValue}
               type="password"
               placeholder="mot de passe"
               name="password"
               onChange={handleChangePassword}
-            />
+              />
           </form>
-          <button className="ml-5 mt-2 btn btn-success" onClick={handleClick}>
+          <button className="mt-3 btn btn-success" onClick={handleClick}>
             Connexion
           </button>
+          <p className='mt-3'>Pas de compte ? </p>
+          <Link to='/register' >
+          <a className="link link-hover link-primary"> Créer un compte</a>
+          </Link>
         </>
       )}
-      
+      </div>
       <div>
       {!isActive && isLogged  && <p className='mb-10'>Votre compte est inactif, Merci d'utiliser le formulaire de contact</p>}
       {!isVerified && isLogged  && <p className='mb-10'>Votre compte demande une vérification, merci de vérifier vos E-mail</p>}
 
       {isLogged && (
         <button
-          className="btn btn-success"
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(logout());
-          }}
+        className="btn btn-success"
+        onClick={(e) => {
+          e.preventDefault();
+          dispatch(logout());
+        }}
         >
           Deconnexion
         </button>
         
-      )}
+        )}
       </div>
 
     </div>
+        </>
   );
 }

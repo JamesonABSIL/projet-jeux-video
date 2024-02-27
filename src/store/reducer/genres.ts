@@ -19,6 +19,7 @@ export const initialState: GenresState ={
 }
 ;
 
+/* Action de l'appel de l'API pour récupérer les Genres des jeux en base de données */
 export const fetchGenres = createAsyncThunk(
   'genres/fetchGenres',
   async (_, thunkAPI) => {
@@ -31,14 +32,17 @@ export const fetchGenres = createAsyncThunk(
 
 const genresReducer = createReducer(initialState, (builder) => {
   builder
+  // L'appelle à l'API est en train de se faire
     .addCase(fetchGenres.pending, (state, action) => {
       state.error = null;
       state.loading = true;
     })
+      // L'appelle à l'API a réussi, les données sont dans le action.payload, qu'on stock dans la list du state
     .addCase(fetchGenres.fulfilled, (state, action)=> {
       state.loading=false;
       state.list=action.payload;
     })
+      // L'appelle à l'API a échoué, on stock les erreurs dans le state
     .addCase(fetchGenres.rejected, (state, action)=> {
       state.loading=false;
       state.error=action.error.message as string;

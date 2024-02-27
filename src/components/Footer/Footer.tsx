@@ -5,10 +5,11 @@ export default function Footer() {
   return (
     <footer className="footer footer-center p-5 bg-base-200 mt-10 flex flex-row justify-between">
   <nav className="flex flex-row gap-4">
-    <Link to='CGU' className="link link-hover text-xl">CGU</Link>
-    <Link to='contact' className="link link-hover text-xl">Contact</Link>
+    {/* Liaison vers la page CGU et Contact */}
+    <Link to='CGU' className="link link-hover text-xs	 lg:text-xl">CGU</Link>
+    <Link to='contact' className="link link-hover text-xs	 lg:text-xl">Contact</Link>
   </nav> 
-  <aside>
+  <aside className='text-xs	lg:text-xl'>
     <p>Jeux Vidé'O Industries Ltd</p>
   </aside>
   <nav>

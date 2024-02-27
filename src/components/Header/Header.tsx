@@ -12,11 +12,11 @@ export default function Header() {
   const { pathname } = useLocation();
  
   return (
-    <header className='z-10 mb-10'>
+    <header className='z-10 '>
       {/* Gestion du header sur mobile ou tablette */}
       <div>
         {isTabletOrMobile && (
-          <div className="navbar bg-base-100 z-10">
+          <div className="navbar bg-base-100 z-50">
             <div className="navbar-start">
               <div className="dropdown">
                 <div

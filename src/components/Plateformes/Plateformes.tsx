@@ -7,24 +7,22 @@ export default function Plateformes() {
 
   return (
     <>
-      <h1>Plateformes</h1>
+      <h1 className='mb-2 text-5xl lg:text-9xl my-9 mb-9'>Plateformes</h1>
       <div className="flex flex-wrap gap-5 justify-center">
         {platforms.map((platforms) => (
           <div
-            className="card w-96 bg-base-100 shadow-xl  z-0"
+            className="card w-1/3 bg-gray-700 shadow-xl z-0 rounded-3xl flex justify-center items-center lg:w-96 min-h-[150px] min-w-[150px]"
             key={platforms.name}
           >
-            <figure className="h-96">
-              <img className="h-96 object-fill"src={`${import.meta.env.VITE_API_COVERS}/${platforms.logo}`} alt={platforms.name} />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title text-white">{platforms.name}</h2>
-              <p className='text-white text-lg'></p>
-              <Link to={`/plateformes/${platforms.slug}`} >
-              <div className="card-actions justify-end">
-                <button className="btn btn-primary">Voir les jeux</button>
-              </div>
+            <figure className="lg:h-80">
+            <Link to={`/plateformes/${platforms.slug}`} >
+              <img className="rounded-3xl min-h-[150px] min-w-[150px]" src={`${import.meta.env.VITE_API_COVERS}/${platforms.logo}`} alt={platforms.name} />
               </Link>
+
+            </figure>
+            <div className="card-body hidden lg:block">
+              <h2 className="text-center text-white">{platforms.name}</h2>
+              <p className='text-white text-lg'></p>
             </div>
           </div>
         ))}

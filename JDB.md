@@ -108,3 +108,34 @@
 - Rendu conditionnel du bouton si la partie est complète dans Parties et Partie.
 - Bloquage de l'utilisateur si son compte n'a pas était validé par email (avec rendu conditionnel d'un message pour prévenir l'utilisateur).
 - Suppression d'un favori depuis la page de profil ( contenu dynamque sur la page des jeux-vidéos).
+
+### 20/02/2024
+
+### 21/02/2024
+
+### 22/02/2024
+- Desinstallation de DaisyUI
+- Installation de Tailwind Element
+- Passage des composants sous Tailwind Element
+- Reconfigugartion des states avec le passage de l'id via les fonctions.
+- Suppression des fonctions inutiles ( RemoveFavorites/addFavorites).
+
+### 23/02/2024
+- Réinstallation de DaisyUI
+- Carroussel dynamique/responsive.
+- Travail sur le responsive du site (title, card...).
+- Rendu dynamique des coeurs des Jeux-vidéos via les states (travail avec le back pour récupération d'un nouveau tableau).
+- Intégration d'un lien dans le jeu-vidéo vers les parties disponibles.
+- Affichage des parties en cours sur un jeu.
+- Rendu conditionnel du bouton d'inscription si le status de la partie est "finished".
+- Rendu conditionnel sur l'affichage des parties avec le status "future".
+- Insertion d'une section partie terminées sur la page de profil de l'utilisateur.
+
+### 26/02/2024
+- Redirection vers la possibilitée de créer un compte sur le login.
+- Travail sur le responsive (titres, cards, boutons...).
+- Modification des informations du profil
+- Rendu dynamique sur la modification de parties
+- Affichage du pseudo selon la plateforme sur laquelle une partie est crée pour transmettre les bons identifiants
+- Affichage d'un bouton pour les utilisateurs ayant le role d'administateur afin de se rendre sur le back-office
+  

@@ -11,7 +11,7 @@ export default function Jeux() {
 
   return (
     <>
-    <h1>Jeux</h1>
+    <h1 className='mb-2 text-4xl lg:text-9xl'>Jeux</h1>
     <div className='flex flex-wrap gap-5 justify-center'>
       {videoGames.map((game)=> 
       <Card key={game.slug} src={`${import.meta.env.VITE_API_COVERS}/${game.cover}`} alt={game.name} name={game.name} description={game.description} slug={game.slug} userFavorite={userFavorite} link={game.slug} id={game.id} game={game}/>

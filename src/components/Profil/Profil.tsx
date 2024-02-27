@@ -2,8 +2,10 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout } from '../../store/reducer/users';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import FavoriteCard from './FavoriteCard'
 import { deleteGame, joinAGame } from '../../store/reducer/games';
+import { findByPseudo } from '../../hooks/findData';
 
 export default function Profil() {
   const dispatch = useAppDispatch();
@@ -31,8 +33,9 @@ export default function Profil() {
   return (
     <>
       {isLogged && (
+        <div>
         <button
-          className="btn btn-success"
+          className="btn btn-success m-5"
           onClick={(e) => {
             e.preventDefault();
             dispatch(logout());
@@ -40,12 +43,22 @@ export default function Profil() {
         >
           Deconnexion
         </button>
+        {currentUser.roles.includes("ROLE_ADMIN") &&
+       <a href="http://andre-appaoo.vpnuser.lan/apotheose/projet-08-jeux-video-back/public"> <button
+          className="btn btn-warning m-5">
+          Back-office
+        </button></a>}
+        <Link to='/update'>
+        <button className="btn btn-info">Modifier le Profil </button>
+        </Link>
+        </div>
       )}
-      <h1>Profil de {currentUser.pseudo} </h1>
+      <h1 className='mt-2 text-3xl lg:text-9xl'>Profil de {currentUser.pseudo} </h1>
+      {/* <p>Votre profil est {currentUser.is_active ? "actif" : "inactif"}</p> */}
       {currentUser.is_active ? (
         <div>
           <div>
-            <h2>Mes jeux favoris :</h2>
+            <h2 className='mt-2 mb-3 text-2xl lg:text-7xl'>Mes jeux favoris :</h2>
             <div className="flex flex-wrap gap-5 justify-center">
               {currentUser.favorites.map((favorites) => (
                 <FavoriteCard slug={favorites.slug} src={`${import.meta.env.VITE_API_COVERS}/${favorites.cover}`} alt={favorites.name} id={favorites.id} favorites={favorites} key={favorites.slug} />                
@@ -54,29 +67,31 @@ export default function Profil() {
           </div>
 
           <div>
-            <h2>Mes parties crées :</h2>
+            <h2 className='mt-2 text-2xl lg:text-7xl m-2'>Mes parties crées :</h2>
             <div className="flex flex-wrap gap-5 justify-center">
               {games.map((games) => (
-                (games.organizer.pseudo===currentUser.pseudo && 
+                (games.organizer.pseudo===currentUser.pseudo && games.status != "finished" &&
                 <div
-                  className="card w-96 bg-base-100 shadow-xl image-full"
+                  className="card w-1/3 bg-base-100 shadow-xl z-0 hover:z-50 lg:w-96 lg:image-full"
                   key={games.id}
-                >
-                  <figure className="h-72">
-                    <img
+                >                      <Link to={`/parties/${games.id}`}>
+
+                  <figure className="rounded-xl lg:h-96">
+                    <img className='h-48 lg:h-full'
                       src={`${import.meta.env.VITE_API_COVERS}/${games.videoGame.cover}`}
                       alt={games.videoGame.name}
                     />
                   </figure>
+                  </Link>
                   <div className="card-body">
-                    <h3 className="card-title text-white">
+                    <h3 className="card-title text-white text-xs hidden lg:block">
                       {games.videoGame.name}
                     </h3>
-                    <p className="text-white">{formatedDate(games.beginAt)} </p>
+                    <p className="text-white text-xs">{formatedDate(games.beginAt)} </p>
 
-                    <div className="card-actions justify-end justify-between">
+                    <div className="card-actions justify-between">
                       <button
-                        className="btn delete btn-circle btn-outline"
+                        className="btn delete btn-circle absolute btn-outline size-8 top-0 left-0 lg:relative lg:size-12"
                         onClick={() => deleteUser(games.id as number)}
                       >
                         <svg
@@ -95,7 +110,7 @@ export default function Profil() {
                         </svg>
                       </button>
                       <Link to={`/parties/${games.id}`}>
-                        <button className="btn btn-primary">
+                        <button className="btn btn-primary hidden lg:block">
                           Plus d'infos
                         </button>
                       </Link>
@@ -107,29 +122,31 @@ export default function Profil() {
           </div>
 
           <div>
-            <h2>Je participe à :</h2>
+            <h2 className='mt-2 text-2xl lg:text-7xl m-2'>Je participe à :</h2>
             <div className="flex flex-wrap gap-5 justify-center">
               {games.map((games) => (
-                (games.participants.map((e) => e.pseudo===currentUser.pseudo && 
+                (games.participants.map((e) => e.pseudo===currentUser.pseudo && games.status != "finished" &&
                 <div
-                  className="card w-96 bg-base-100 shadow-xl image-full"
+                  className="card w-1/3 bg-base-100 shadow-xl z-0 hover:z-50 lg:w-96 lg:image-full"
                   key={games.id}
                 >
-                  <figure className="h-72">
-                    <img
+                 <Link to={`/parties/${games.id}`}>
+                  <figure className="rounded-xl lg:h-96">
+                    <img className='h-48 lg:h-full'
                       src={`${import.meta.env.VITE_API_COVERS}/${games.videoGame.cover}`}
                       alt={games.videoGame.name}
                     />
                   </figure>
+                  </Link>
                   <div className="card-body">
-                    <h3 className="card-title text-white">
+                    <h3 className="card-title text-white text-xs hidden lg:block">
                       {games.videoGame.name}
                     </h3>
-                    <p className="text-white">{formatedDate(games.beginAt)} </p>
+                    <p className="text-white text-xs">{formatedDate(games.beginAt)} </p>
                     
                       <div className="card-actions justify-end justify-between">
                       <button
-                        className="btn delete btn-circle btn-outline"
+                        className="btn delete btn-circle absolute btn-outline size-8 top-0 left-0 lg:relative lg:size-12"
                         onClick={() => handleClick(games.id as number)}
                       >
                         <svg
@@ -148,10 +165,43 @@ export default function Profil() {
                         </svg>
                       </button>
                         <Link to={`/parties/${games.id}`}>
-                        <button className="btn btn-primary">
+                        <button className="btn btn-primary hidden lg:block">
                           Plus d'infos
                         </button></Link>
                       </div>
+                  </div>
+                </div>
+              ))))}
+            </div>
+          </div>
+          <div>
+            <h2 className='mt-2 text-2xl lg:text-7xl'>Parties terminées :</h2>
+            <div className="flex flex-wrap gap-5 justify-center">
+              {games.map((games) => (
+                (games.participants.map((e) => e.pseudo===currentUser.pseudo && games.status === "finished" &&
+                <div
+                  className="card w-1/3 bg-base-100 shadow-xl z-0 hover:z-50 lg:w-96 lg:image-full"
+                  key={games.id}
+                >
+                  <figure className="rounded-xl lg:h-96">
+                    <img className='h-48 lg:h-full'
+                      src={`${import.meta.env.VITE_API_COVERS}/${games.videoGame.cover}`}
+                      alt={games.videoGame.name}
+                    />
+                  </figure>
+                  <div className="card-body">
+                    <h3 className="card-title text-white text-xs hidden lg:block">
+                      {games.videoGame.name}
+                    </h3>
+                    <p className="text-white text-xs">{formatedDate(games.beginAt)} </p>
+
+                    <div className="card-actions justify-between">
+                      <Link to={`/parties/${games.id}`}>
+                        <button className="btn btn-primary hidden lg:block">
+                          Plus d'infos
+                        </button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))))}
