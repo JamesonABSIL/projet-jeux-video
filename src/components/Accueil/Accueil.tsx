@@ -26,7 +26,7 @@ export default function Accueil() {
       <div className="flex infinite h-72 lg:h-full gap-4 lg:gap-4">
       {videoGames.map((game) => 
   <div className="carousel-item w-60 lg:w-96 infinite-item " key={game.slug}>
-    <img src={`http://ec2-13-39-155-29.eu-west-3.compute.amazonaws.com/${game.cover}`}
+    <img src={`https://andre-appaoo-server.eddi.cloud/api/${game.cover}`}
     alt={game.slug} 
     className='rounded-xl'/>
   </div> 
