@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks/redux';
 export default function Accueil() {
   const isLogged = useAppSelector((state) => state.users.logged);
   const videoGames = useAppSelector((state)=>state.videoGames.homeList)
+  console.log(videoGames)
   return (
     <>
  
@@ -26,7 +27,7 @@ export default function Accueil() {
       <div className="flex infinite h-72 lg:h-full gap-4 lg:gap-4">
       {videoGames.map((game) => 
   <div className="carousel-item w-60 lg:w-96 infinite-item " key={game.slug}>
-    <img src={`https://andre-appaoo-server.eddi.cloud/${game.cover}`}
+    <img src={`${import.meta.env.VITE_API_COVERS}/${game.cover}`}
     alt={game.slug} 
     className='rounded-xl'/>
   </div> 

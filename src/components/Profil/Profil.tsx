@@ -23,6 +23,7 @@ export default function Profil() {
   // Fonction qui transforme une dateString en visuel FR présentable
   const formatedDate = (time: string) =>
     new Date(time).toLocaleString('fr-FR', {
+      timeZone:'UTC',
       minute: 'numeric',
       hour: 'numeric',
       day: '2-digit',
@@ -44,7 +45,7 @@ export default function Profil() {
           Deconnexion
         </button>
         {currentUser.roles.includes("ROLE_ADMIN") &&
-       <a href="http://andre-appaoo.vpnuser.lan/apotheose/projet-08-jeux-video-back/public"> <button
+       <a href="http://jameson-absil.vpnuser.lan/Apoth%c3%a9ose/projet-08-jeux-video-back/public"> <button
           className="btn btn-warning m-5">
           Back-office
         </button></a>}

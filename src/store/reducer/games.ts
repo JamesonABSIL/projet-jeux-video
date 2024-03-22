@@ -76,6 +76,8 @@ async (id : number, thunkAPI) => {
   const state=thunkAPI.getState() as RootState;
   const token=state.users.token
   const informations = state.games.gameCredential as IGameCredentials;
+  console.log(informations)
+  console.log(id)
   const {data} = await  axios.put(`${import.meta.env.VITE_API_URL}/games/${id}`, informations, {
     headers: { Authorization: `Bearer ${token}` },
   })

@@ -174,7 +174,7 @@ const dispatch = useAppDispatch();
         </button>}
         <form action="" className='flex flex-col gap-2 bg-black p-2 rounded-md'>
           <label htmlFor="">Choisissez un jeu : </label>
-          <input list="videogames" placeholder='Jeux' value={partie.videoGame.name} onChange={handleChangegames}/>
+          <input list="videogames" placeholder='Jeux'  onChange={handleChangegames}/>
           <datalist id="videogames">
             <option value={partie.videoGame.name} key={partie.videoGame.slug}></option>
           </datalist>

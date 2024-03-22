@@ -168,7 +168,9 @@ const usersReducer = createReducer(initialState, (builder) => {
   }).addCase(changePassword, (state, action)=> {
     state.credentials.password=action.payload
   }).addCase(changeMailRegister, (state, action)=> {
-    state.register.email=action.payload  
+    state.register.email=action.payload
+  }).addCase(changePseudoRegister, (state, action)=> {
+    state.register.pseudo=action.payload
   }).addCase(changePasswordRegister, (state, action)=> {
     state.register.password=action.payload
   }).addCase(changePasswordCheckRegister, (state, action)=> {
