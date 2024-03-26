@@ -39,38 +39,30 @@ const isLogged = useAppSelector((state) => state.users.logged);
     if (pseudo.length===0) {
       error.push('Veuillez entrer un pseudo')
     }
-
     if (!password.match(/[0-9]/g)) {
       error.push('Votre mot de passe doit contenir minimum un chiffre')
     }
-
     if (!password.match(/[A-Z]/g)) {
       error.push('Votre mot de passe doit contenir une majuscule')
     }
-
     if (!password.match(/[a-z]/g)) {
       error.push('Votre mot de passe doit contenir une minuscule')
     }
-
     if (!password.match(/[^a-zA-Z\d]/g)) {
       error.push('Votre mot de passe doit contenir un caractère spécial')
     }
-
     if (password!=passwordCheck) {
       error.push('Les mots de passe ne correspondent pas')
     }  
-    
     if(password.length<8) {
       error.push('Votre mot de passe doit faire 8 caractères minimum')
     }
-    
     if (!emailRegex.test(email)) {
         error.push('Veuillez rentrer un email valide')
     } 
 
     setErrorList(error);
 
-    console.log(errorList)
 
     if (error.length===0) {
       dispatch(register());

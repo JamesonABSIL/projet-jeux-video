@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { findBySlug } from '../../hooks/findData';
+import { findBySlug } from '../../store/selectors/findData';
 import { Link } from 'react-router-dom';
 import { Ivideo_game } from '../../@types/types';
 import { updateFavorite } from '../../store/reducer/users';
@@ -48,7 +48,7 @@ export default function Genre() {
                       className="card w-1/3 bg-base-100  shadow-xl z-0 hover:z-50 lg:w-96 lg:image-full"
                       key={game.slug}
                     >
-                      <figure className="lg:h-72 rounded-xl" >
+                      <figure className="lg:h-72 rounded-xl">
                         <button
                           className="btn coeur absolute top-0 left-0 w-1/2 lg:hidden bg-black"
                           onClick={() => handleClickUpdate(game.id)}
@@ -72,15 +72,19 @@ export default function Genre() {
                             />
                           </svg>
                         </button>
-                        <Link className="lg:hidden block"to={`/jeux/${game.slug}`}>
-                        <img
-                          src={`${import.meta.env.VITE_API_COVERS}/${
-                            game.cover
-                          }`}
-                          alt={game.name}
-                        />
+                        <Link
+                          className="lg:hidden block"
+                          to={`/jeux/${game.slug}`}
+                        >
+                          <img
+                            src={`${import.meta.env.VITE_API_COVERS}/${
+                              game.cover
+                            }`}
+                            alt={game.name}
+                          />
                         </Link>
-                        <img className='lg:block hidden'
+                        <img
+                          className="lg:block hidden"
                           src={`${import.meta.env.VITE_API_COVERS}/${
                             game.cover
                           }`}

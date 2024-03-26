@@ -5,11 +5,21 @@ export default function CGU() {
     <>
     <h1 className="text-4xl lg:text-8xl"> Conditions d'utilisation</h1>
     <h6 className="mt-5">
-        {' '}
         L'utilisation du site web Jeux-vidé-O par les utilisateurs enregistrés
         est soumise aux conditions d'utilisation suivantes :
       </h6>
-    <p className='ml-5 mr-5 lg:ml-10 lg:mr-10 mt-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, nemo placeat soluta odio vitae nulla vero doloribus culpa et rem! Quisquam in, excepturi dolorem commodi animi consequuntur iusto similique deserunt quasi ducimus numquam eius possimus dolor incidunt culpa perspiciatis exercitationem qui, necessitatibus repudiandae, sint laudantium vel ipsa consequatur. Odit cum laborum explicabo dolorum ut libero sed similique ex accusantium. Facilis, ipsum expedita aperiam neque possimus minima delectus dolores voluptas fugiat corrupti animi perspiciatis veniam voluptatum nulla rem perferendis quo a eligendi distinctio earum quod esse nostrum facere. Numquam quibusdam aliquam iste cupiditate totam fugiat, quidem dolorum labore dolore quae, corporis sed veniam autem, omnis possimus debitis iusto quo incidunt sapiente fugit quaerat reiciendis amet! Impedit quis numquam officia in aliquam, consectetur non. Fuga quaerat delectus harum, qui error consequuntur pariatur repudiandae explicabo labore ipsam magni culpa, modi necessitatibus? Id corrupti unde distinctio odit excepturi modi dolor totam repellat quasi praesentium saepe sed aliquam, expedita inventore porro. Ex asperiores tenetur repudiandae, aliquid doloribus quasi? Esse laboriosam consequuntur, explicabo similique repellat recusandae accusantium fugit harum magni eius. Voluptatibus quibusdam laborum, error voluptatum qui autem incidunt similique, dolore veniam corporis quasi numquam ratione quisquam. Quidem laboriosam rerum iusto doloribus mollitia! Mollitia, doloremque dolores dicta cupiditate incidunt tempore quia debitis esse vel harum, illum deleniti, maxime id quasi at animi tempora eveniet aut placeat molestiae. Illo aliquid ratione, possimus suscipit tenetur maxime ducimus amet quia autem debitis! Odit minima illo autem reiciendis magni explicabo, recusandae quas, minus rem ullam neque amet possimus? Eligendi commodi officiis sit quidem doloremque iusto odio tempora quaerat natus quo placeat consectetur quod dicta deleniti nulla quis nam nemo eum eius veniam, mollitia ab accusantium. Quaerat placeat odit deleniti porro error esse, dolore, quam a doloribus ratione aperiam tempore, optio tempora repellendus quibusdam deserunt facere sit tenetur non exercitationem sed.</p>
+    <ul className='ml-5 mr-5 lg:ml-10 lg:mr-10 mt-2'>
+      <li>L’accès à cette plateforme signifie l’acceptation des présentes CGU.</li>
+    <li> L’édition du site Jeux-Vide-O est assurée par Jameson ABSIL, domicilié  au XXXXXXXXXX, XXXXXXX, France Métropolitaine.</li>
+    <li> Le site Jeux-Vide'O permet de proposer des parties en ligne à d'autres joueurs</li>
+    <li>Le site est accessible gratuitement depuis n’importe où par tout utilisateur disposant d’un accès à Internet. Tous les frais nécessaires pour l’accès aux services (matériel informatique, connexion Internet…) sont à la charge de l’utilisateur.</li>
+    <li>L’accès aux services dédiés aux membres s’effectue à l’aide d’un identifiant et d’un mot de passe.</li>
+    <li>Pour des raisons de maintenance ou autres, l’accès au site peut être interrompu ou suspendu par l’éditeur sans préavis ni justification.</li>
+    <li>Pour la création du compte de l’Utilisateur, la collecte des informations au moment de l’inscription sur le site est nécessaire et obligatoire.</li>
+    <li>Conformément à la loi n°78-17 du 6 janvier relative à l’informatique, aux fichiers et aux libertés, la collecte et le traitement d’informations personnelles s’effectuent dans le respect de la vie privée.</li>
+<li>Le site décline toute responsabilité concernant les éventuels virus pouvant infecter le matériel informatique de l’Utilisateur après l’utilisation ou l’accès à ce site.</li>
+<li>Le Site jeux vide'O permettant de partager les pseudos des utilisateurs, les membres sont tenu de ne pas utiliser ces informations à des fins préjudiciables</li>
+    </ul>
     </>
   )
 }

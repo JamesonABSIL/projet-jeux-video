@@ -6,7 +6,6 @@ import { useAppSelector } from '../../hooks/redux';
 export default function Accueil() {
   const isLogged = useAppSelector((state) => state.users.logged);
   const videoGames = useAppSelector((state)=>state.videoGames.homeList)
-  console.log(videoGames)
   return (
     <>
  
