@@ -1,11 +1,8 @@
-import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout } from '../../store/reducer/users';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import FavoriteCard from './FavoriteCard';
 import { deleteGame, joinAGame } from '../../store/reducer/games';
-import { findByPseudo } from '../../store/selectors/findData';
 
 export default function Profil() {
   const dispatch = useAppDispatch();

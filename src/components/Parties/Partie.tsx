@@ -36,6 +36,13 @@ export default function Partie() {
       minute: 'numeric',
     });
 
+    const formatedDateTest = (time: string | Date) =>
+    new Date(time).toLocaleString('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+
   const [Platform, setPlatform] = useState<any>();
   const [videoGame, setVideoGame] = useState<any>();
 
@@ -93,7 +100,15 @@ export default function Partie() {
         return '';
     }
   };
-
+  const dateEng = new Date().toLocaleString('en-GB', {
+    year: 'numeric',
+    day: '2-digit',
+    month: 'long',
+  })
+  console.log(new Date(dateEng))
+  console.log(formatedDateTest(partie.beginAt))
+  console.log(new Date(formatedDateTest(partie.beginAt)))
+  console.log(new Date(dateEng) < new Date(formatedDateTest(partie.beginAt)))
   return (
     <>
       {!partie ? (

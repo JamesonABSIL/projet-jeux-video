@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Igame, Iplatform, Ivideo_game } from '../../@types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { findByName, findById } from '../../store/selectors/findData';
+import { findByName } from '../../store/selectors/findData';
 import {
   changeDateinput,
   changeGameInput,
@@ -10,6 +10,7 @@ import {
   sendGame,
 } from '../../store/reducer/games';
 import { Link } from 'react-router-dom';
+
 
 export default function Parties() {
   /*Fonction permettant de convertir le format de la date recupéré en API au format dd/mm/YY mm:ss*/
@@ -23,13 +24,20 @@ export default function Parties() {
       minute: 'numeric',
     });
   /*Fonction permettant de convertir le format de la date recupéré en API au format dd/mm/YY, permet de comparer par la suite si une partie à lieu aujourd'hui ou plus tard*/
-  const formatedDateOnlyDay = (time: string) =>
+  const formatedDateOnlyDay = (time: string | Date) =>
     new Date(time).toLocaleString('fr-FR', {
-      timeZone: 'UTC',
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
+
+    const formatedDateTest = (time: string | Date) =>
+    new Date(time).toLocaleString('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+   
   /*State pour */
   const [open, setOpen] = useState(true);
   const [Platform, setPlatform] = useState<never | any>();
@@ -39,9 +47,14 @@ export default function Parties() {
   const platformsData = useAppSelector((state) => state.platforms.list);
   const parties = useAppSelector((state) => state.games.list);
 
-  const date = new Date()
-  const dateToday = new Date().toLocaleDateString();
+  const dateEng = new Date().toLocaleString('en-GB', {
+    year: 'numeric',
+    day: '2-digit',
+    month: 'long',
+  })
 
+  const date = new Date();
+  const dateToString = new Date().toLocaleDateString();
 
   const dispatch = useAppDispatch();
 
@@ -81,7 +94,7 @@ export default function Parties() {
         <div className="carousel max-w-full p-4 space-x-4 bg-neutral rounded-box">
           {parties.map(
             (game: Igame) =>
-            dateToday === formatedDateOnlyDay(game.beginAt) &&
+            dateToString === formatedDateOnlyDay(game.beginAt) &&
               game.status != 'finished' && (
                 <div className="carousel-item w-80 z-0" key={game.id}>
                   <div className="card lg:card-side bg-base-100 shadow-xl ">
@@ -128,7 +141,7 @@ export default function Parties() {
         <div className="carousel carousel-center max-w-full p-4 space-x-4 bg-neutral rounded-box">
           {parties.map(
             (game: any) =>
-              date < new Date(formatedDateOnlyDay(game.beginAt)) && (
+            new Date(dateEng) < new Date(formatedDateTest(game.beginAt)) &&(
                 <div className="carousel-item w-80 z-0" key={game.id}>
                   <div className="card lg:card-side bg-base-100 shadow-xl ">
                     <figure className="h-96">
