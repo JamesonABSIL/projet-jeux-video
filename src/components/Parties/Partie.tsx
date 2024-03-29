@@ -105,10 +105,7 @@ export default function Partie() {
     day: '2-digit',
     month: 'long',
   })
-  console.log(new Date(dateEng))
-  console.log(formatedDateTest(partie.beginAt))
-  console.log(new Date(formatedDateTest(partie.beginAt)))
-  console.log(new Date(dateEng) < new Date(formatedDateTest(partie.beginAt)))
+ 
   return (
     <>
       {!partie ? (
