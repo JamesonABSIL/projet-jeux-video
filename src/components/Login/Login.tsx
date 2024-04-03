@@ -7,7 +7,6 @@ import {
   logout,
 } from '../../store/reducer/users';
 import Input from './LoginInput/Input';
-import { fetchGenres } from '../../store/reducer/genres';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
@@ -15,9 +14,7 @@ export default function Login() {
 
   const dispatch = useAppDispatch();
 
-  const { username, password } = useAppSelector(
-    (state) => state.users.credentials
-  );
+  
   const isLogged = useAppSelector((state) => state.users.logged);
   const mailValUe = useAppSelector((state) => state.users.credentials.username);
   const passwordValue = useAppSelector(
@@ -76,7 +73,7 @@ export default function Login() {
           </button>
           <p className='mt-3'>Pas de compte ? </p>
           <Link to='/register' >
-          <a className="link link-hover link-primary"> Créer un compte</a>
+          <p className="link link-hover link-primary"> Créer un compte</p>
           </Link>
         </>
       )}

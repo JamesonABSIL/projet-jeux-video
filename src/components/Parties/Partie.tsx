@@ -105,7 +105,9 @@ export default function Partie() {
     day: '2-digit',
     month: 'long',
   })
- 
+
+
+  
   return (
     <>
       {!partie ? (

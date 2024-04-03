@@ -11,6 +11,9 @@ import {
   sendGame,
 } from '../../store/reducer/games';
 import { Iplatform, Ivideo_game } from '../../@types/types';
+import Loading from '../App/Loading/Loading';
+import Error from '../Error/Error';
+
 
 export default function Jeu() {
   const isDesktopOrLaptop = useMediaQuery({
@@ -41,6 +44,7 @@ export default function Jeu() {
   const videoGame = useAppSelector((state) =>
     findBySlug(state.videoGames.list, slug)
   );
+  console.log(videoGame)
 
   /*On s'abonne à la liste de tous les jeux vidéos*/
   const videoGames = useAppSelector((state) => state.videoGames.list);
@@ -86,8 +90,9 @@ export default function Jeu() {
 
   return (
     <>
+    {videoGame===undefined && <Error /> }
       {!videoGame ? (
-        'Ca charge'
+        <Loading/>
       ) : (
         <div>
           <h1 className="mb-2 text-5xl lg:text-9xl"> {videoGame.name}</h1>
@@ -104,7 +109,7 @@ export default function Jeu() {
               <p>Rejoignez notre escouade</p>
               <ul>
                 {videoGame.games.map((parties: any) => (
-                  <li className="items-center gap-x-10 text-sm text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                  <li key={parties.id} className="items-center gap-x-10 text-sm text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                     {' '}
                     {parties.status != 'finished' && (
                       <Link to={`/parties/${parties.id}`}>

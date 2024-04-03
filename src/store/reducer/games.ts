@@ -158,6 +158,8 @@ const gamesReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchGames.fulfilled, (state, action) => {
       state.loading = false;
+      console.log(action.payload)
+
       state.list = action.payload;
     })
     .addCase(fetchGames.rejected, (state, action) => {
@@ -171,6 +173,7 @@ const gamesReducer = createReducer(initialState, (builder) => {
     })
     .addCase(sendGame.fulfilled, (state, action) => {
       state.loading = false;
+      console.log(action.payload)
       state.list.push(action.payload);
     })
     .addCase(sendGame.rejected, (state, action) => {

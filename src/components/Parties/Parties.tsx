@@ -24,15 +24,10 @@ export default function Parties() {
       minute: 'numeric',
     });
   /*Fonction permettant de convertir le format de la date recupéré en API au format dd/mm/YY, permet de comparer par la suite si une partie à lieu aujourd'hui ou plus tard*/
-  const formatedDateOnlyDay = (time: string | Date) =>
-    new Date(time).toLocaleString('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
 
-    const formatedDateTest = (time: string | Date) =>
+    const formatedDateToCompare = (time: string | Date) =>
     new Date(time).toLocaleString('en-GB', {
+      timeZone: 'UTC',
       day: '2-digit',
       month: 'long',
       year: 'numeric',
@@ -47,14 +42,7 @@ export default function Parties() {
   const platformsData = useAppSelector((state) => state.platforms.list);
   const parties = useAppSelector((state) => state.games.list);
 
-  const dateEng = new Date().toLocaleString('en-GB', {
-    year: 'numeric',
-    day: '2-digit',
-    month: 'long',
-  })
-
-  const date = new Date();
-  const dateToString = new Date().toLocaleDateString();
+  const date = formatedDateToCompare(new Date());
 
   const dispatch = useAppDispatch();
 
@@ -94,7 +82,7 @@ export default function Parties() {
         <div className="carousel max-w-full p-4 space-x-4 bg-neutral rounded-box">
           {parties.map(
             (game: Igame) =>
-            dateToString === formatedDateOnlyDay(game.beginAt) &&
+            date === formatedDateToCompare(game.beginAt) &&
               game.status != 'finished' && (
                 <div className="carousel-item w-80 z-0" key={game.id}>
                   <div className="card lg:card-side bg-base-100 shadow-xl ">
@@ -141,7 +129,7 @@ export default function Parties() {
         <div className="carousel carousel-center max-w-full p-4 space-x-4 bg-neutral rounded-box">
           {parties.map(
             (game: any) =>
-            new Date(dateEng) < new Date(formatedDateTest(game.beginAt)) &&(
+            new Date(date) < new Date(formatedDateToCompare(game.beginAt)) &&(
                 <div className="carousel-item w-80 z-0" key={game.id}>
                   <div className="card lg:card-side bg-base-100 shadow-xl ">
                     <figure className="h-96">

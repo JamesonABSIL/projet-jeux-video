@@ -6,10 +6,10 @@ export function findByName(datas : any, name : string | undefined) {
 }
 
 export function findBySlug(datas : any, slug : string | undefined) {
-  const game = datas.find((game: any ) => {
+  const gameSearched = datas.find((game: any ) => {
     return game.slug == slug;
   });
-  return game;
+  return gameSearched;
 }
 export function findById(datas: any , id : number | undefined | string) {
   const game = datas.find((game: any) => {
