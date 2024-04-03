@@ -36,12 +36,6 @@ export default function Partie() {
       minute: 'numeric',
     });
 
-    const formatedDateTest = (time: string | Date) =>
-    new Date(time).toLocaleString('en-GB', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    });
 
   const [Platform, setPlatform] = useState<any>();
   const [videoGame, setVideoGame] = useState<any>();
@@ -107,7 +101,7 @@ export default function Partie() {
   })
 
 
-  
+
   return (
     <>
       {!partie ? (

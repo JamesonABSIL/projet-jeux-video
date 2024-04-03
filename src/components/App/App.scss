@@ -1,5 +1,9 @@
 @use '../../styles/variables' as v;
 
+
+html {
+  background-color: v.$color-bg;
+}
 .App {
   text-align: center;
   background-color: v.$color-bg;
@@ -41,7 +45,7 @@ footer {
 	position: fixed;
 	z-index: 50;
 	width: 100%;
-	height: 70px;
+	height: 8%;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -49,7 +53,9 @@ footer {
   color: v.$color;
 }
 main {
-	margin-bottom: 80px;
+  margin-bottom: 10%;
+  background-color: v.$color-bg;
+  height: 100%;
 }
 // Gestion des coeurs Favoris
 button.btn.coeur{

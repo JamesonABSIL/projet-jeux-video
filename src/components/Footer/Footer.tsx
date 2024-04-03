@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer className="footer-center p-5 bg-base-200 mt-10 flex flex-row justify-between">
+    <footer className="p-5 flex flex-row justify-between">
   <nav className="flex flex-row gap-4">
     {/* Liaison vers la page CGU et Contact */}
     <Link to='CGU' className="link link-hover text-xs	 lg:text-xl">CGU</Link>
